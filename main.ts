@@ -46,7 +46,57 @@ function makeBoatVisible (boatArray: Sprite[]) {
         previousBoatSprite.setFlag(SpriteFlag.Invisible, false)
     }
 }
+function is_hit_or_miss (enemyboats: Sprite[][]) {
+    for (let index = 0; index <= 2; index++) {
+        for (let currentBoatSprite2 of enemyboats[index]) {
+            if (grid.spriteCol(currentBoatSprite2) == grid.spriteCol(cursor) && grid.spriteRow(currentBoatSprite2) == grid.spriteRow(cursor)) {
+                boomsprite = sprites.create(img`
+                    . . . . 2 2 2 2 2 2 2 2 . . . . 
+                    . . . 2 4 4 4 5 5 4 4 4 2 2 2 . 
+                    . 2 2 5 5 d 4 5 5 5 4 4 4 4 2 . 
+                    . 2 4 5 5 5 5 d 5 5 5 4 5 4 2 2 
+                    . 2 4 d d 5 5 5 5 5 5 d 4 4 4 2 
+                    2 4 5 5 d 5 5 5 d d d 5 5 5 4 4 
+                    2 4 5 5 4 4 4 d 5 5 d 5 5 5 4 4 
+                    4 4 4 4 . . 2 4 5 5 . . 4 4 4 4 
+                    . . b b b b 2 4 4 2 b b b b . . 
+                    . b d d d d 2 4 4 2 d d d d b . 
+                    b d d b b b 2 4 4 2 b b b d d b 
+                    b d d b b b b b b b b b b d d b 
+                    b b d 1 1 3 1 1 d 1 d 1 1 d b b 
+                    . . b b d d 1 1 3 d d 1 b b . . 
+                    . . 2 2 4 4 4 4 4 4 4 4 2 2 . . 
+                    . . . 2 2 4 4 4 4 4 2 2 2 . . . 
+                    `, SpriteKind.Player)
+                grid.place(boomsprite, grid.getLocation(cursor))
+            } else {
+                mySprite = sprites.create(img`
+                    . . . . . b b b b b b . . . . . 
+                    . . . b b 9 9 9 9 9 9 b b . . . 
+                    . . b b 9 9 9 9 9 9 9 9 b b . . 
+                    . b b 9 d 9 9 9 9 9 9 9 9 b b . 
+                    . b 9 d 9 9 9 9 9 1 1 1 9 9 b . 
+                    b 9 d d 9 9 9 9 9 1 1 1 9 9 9 b 
+                    b 9 d 9 9 9 9 9 9 1 1 1 9 9 9 b 
+                    b 9 3 9 9 9 9 9 9 9 9 9 1 9 9 b 
+                    b 5 3 d 9 9 9 9 9 9 9 9 9 9 9 b 
+                    b 5 3 3 9 9 9 9 9 9 9 9 9 d 9 b 
+                    b 5 d 3 3 9 9 9 9 9 9 9 d d 9 b 
+                    . b 5 3 3 3 d 9 9 9 9 d d 5 b . 
+                    . b d 5 3 3 3 3 3 3 3 d 5 b b . 
+                    . . b d 5 d 3 3 3 3 5 5 b b . . 
+                    . . . b b 5 5 5 5 5 5 b b . . . 
+                    . . . . . b b b b b b . . . . . 
+                    `, SpriteKind.Player)
+                grid.place(boomsprite, grid.getLocation(cursor))
+            }
+        }
+    }
+}
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    if (moveBoatFlag == 0) {
+        is_hit_or_miss(boatSpriteArrayP2)
+    }
     if (moveBoatFlag == 3) {
         cursor.setFlag(SpriteFlag.Invisible, false)
     }
@@ -306,6 +356,8 @@ function isOverlapping (boatSpriteArrayPX: Sprite[][]) {
     return 0
 }
 let iterator = 0
+let mySprite: Sprite = null
+let boomsprite: Sprite = null
 let boatRotateArrayP2: string[] = []
 let boatSpriteArrayP2: Sprite[][] = []
 let shadowCursor: Sprite = null
